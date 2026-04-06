@@ -1,0 +1,15 @@
+{
+  "name": "caveman-talk",
+  "description": "Caveman compression for Codex — terse responses and input compression via any OpenAI-compatible API",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Caveman Talk",
+    "shortDescription": "Terse caveman responses. Cut fluff. Keep technical substance.",
+    "longDescription": "Combines two forms of caveman compression: a skill that makes the agent respond in terse caveman-speak (lite/full/ultra intensity), and CLI tools that compress/decompress text via any OpenAI-compatible API endpoint.",
+    "developerName": "caveman-talk contributors",
+    "category": "Productivity",
+    "capabilities": ["Write"],
+    "defaultPrompt": ["Use caveman mode. Cut filler. Keep technical accuracy."],
+    "brandColor": "#8B6914"
+  }
+}
