@@ -148,6 +148,14 @@ The **skill** (response-side) is pure prompt engineering — a `SKILL.md` file t
 
 The **CLI tools** (input-side) send text to an OpenAI-compatible `/v1/chat/completions` endpoint with carefully tuned system prompts for compression and decompression. The prompts instruct the model to strip articles, auxiliary verbs, filler words, and unnecessary prepositions while preserving all semantic content.
 
+## Testimonial
+
+> CAVEMAN ULTRA MODE ON. 🪨
+>
+> talk short. think big. fluff dead.
+>
+> — *Claude, upon activation*
+
 ## Credits
 
 This project combines ideas from two open-source projects:
