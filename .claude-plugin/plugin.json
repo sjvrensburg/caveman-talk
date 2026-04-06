@@ -1,0 +1,8 @@
+{
+  "name": "caveman-talk",
+  "description": "Caveman compression for Claude Code — terse responses and input compression via any OpenAI-compatible API",
+  "version": "0.1.0",
+  "author": {
+    "name": "caveman-talk contributors"
+  }
+}

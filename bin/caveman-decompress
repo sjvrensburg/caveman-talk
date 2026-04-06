@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+"""Decompress caveman-speak back to fluent English via any OpenAI-compatible API.
+
+Usage:
+    echo "caveman text" | caveman-decompress
+    caveman-decompress "caveman text"
+"""
+import sys
+import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+from caveman import decompress
+
+def main():
+    if len(sys.argv) > 1:
+        text = " ".join(sys.argv[1:])
+    elif not sys.stdin.isatty():
+        text = sys.stdin.read()
+    else:
+        print("Usage: caveman-decompress <text>", file=sys.stderr)
+        print("       echo <text> | caveman-decompress", file=sys.stderr)
+        sys.exit(1)
+
+    text = text.strip()
+    if not text:
+        sys.exit(0)
+
+    try:
+        print(decompress(text))
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()

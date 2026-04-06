@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "caveman-talk"
+version = "0.1.0"
+description = "Compress and decompress text to caveman-speak via any OpenAI-compatible API"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+dependencies = ["requests>=2.28"]
+
+[project.scripts]
+caveman-compress = "caveman.translate:_cli_compress"
+caveman-decompress = "caveman.translate:_cli_decompress"
+
+[tool.setuptools.packages.find]
+include = ["caveman*"]
