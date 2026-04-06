@@ -113,7 +113,13 @@ The caveman skill compresses **output tokens only** — the visible response tex
 
 Caveman compression becomes proportionally more impactful when thinking is short — for example, when using low thinking effort or a reduced `budget_tokens` setting. Pairing `/caveman-talk:caveman ultra` with low thinking effort gives the best overall token savings.
 
-The **CLI tools** (input-side compression) complement the skill by reducing input token counts, which the skill cannot do.
+The **CLI tools** (input-side compression) complement the skill by reducing input token counts, which the skill cannot do. However, there is no way to automatically compress your input — Claude Code's `UserPromptSubmit` hook can block or add context to a prompt, but cannot rewrite it. To compress your input manually, run a shell command inside Claude Code with the `!` prefix:
+
+```
+! echo "your long prompt here" | caveman-compress
+```
+
+This runs the command and prints the compressed text, but does **not** submit it as a prompt. Copy the output and paste it as your next message.
 
 #### Safety
 
