@@ -107,6 +107,14 @@ Activate inside Claude Code or Codex:
 | **full** | Drops articles, fragments OK, short synonyms | "Bug in auth middleware. Token expiry check use `<` not `<=`. Fix:" |
 | **ultra** | Abbreviations, arrows for causality, maximum compression | "auth middleware bug. expiry: `<` -> `<=`. fix:" |
 
+#### A note on thinking tokens
+
+The caveman skill compresses **output tokens only** — the visible response text. It cannot affect the model's internal thinking/reasoning traces, which often account for the majority of token usage. This is an architectural limitation: skills are prompt-injected into the assistant context and only shape generated output, not internal chain-of-thought.
+
+Caveman compression becomes proportionally more impactful when thinking is short — for example, when using low thinking effort or a reduced `budget_tokens` setting. Pairing `/caveman-talk:caveman ultra` with low thinking effort gives the best overall token savings.
+
+The **CLI tools** (input-side compression) complement the skill by reducing input token counts, which the skill cannot do.
+
 #### Safety
 
 Caveman mode automatically suspends for:
