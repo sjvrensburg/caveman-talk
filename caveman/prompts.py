@@ -5,39 +5,41 @@ COMPRESS_SYSTEM = (
     "Always compress the provided text, never ask for clarification."
 )
 
-COMPRESS_USER_TEMPLATE = """\
-Aggressively remove all stop words and grammatical scaffolding while \
-preserving meaning. Output ONLY the compressed text, nothing else.
+_COMPRESS_BASE = """\
+Strip grammatical scaffolding, preserve meaning. Output ONLY compressed text.
 
-ALWAYS REMOVE:
-- Articles: a, an, the
-- Auxiliary verbs: is, are, was, were, am, be, been, being, have, has, had, \
-do, does, did
-- Common prepositions when meaning stays clear: of, for, to, in, on, at
-- Pronouns when context is clear: it, this, that, these, those
-- Pure intensifiers: very, quite, rather, somewhat, really, extremely
-- Filler words: just, basically, actually, simply, essentially
-- Pleasantries: sure, certainly, of course, happy to
+REMOVE: articles (a/an/the), auxiliaries (is/are/was/were/have/has/do/does), \
+clear-context pronouns (it/this/that), filler (just/basically/actually/simply), \
+intensifiers (very/quite/really/extremely), pleasantries, redundant prepositions.
 
-ALWAYS KEEP:
-- All nouns (people, places, things, concepts)
-- All main verbs (actions, not auxiliaries)
-- All adjectives that add meaning
-- All numbers and quantifiers
-- Negations (not, no, never, without)
-- Uncertainty qualifiers (appears, seems, might, likely)
-- Time/frequency words (daily, always, never, every Tuesday)
-- Names, titles, technical terms
-- Critical prepositions that change meaning (from, with, without)
+KEEP: nouns, main verbs, meaningful adjectives, numbers, negations, \
+uncertainty qualifiers (might/likely), time words, names, technical terms, \
+meaning-changing prepositions (from/with/without)."""
 
-BE SMART ABOUT:
-- Keep prepositions when they define relationships: "made from wood" (keep)
-- Remove "is/are/was/were" unless passive voice matters
-- One thought per fragment, 2-5 words each
-- Use short synonyms: big not extensive, fix not "implement a solution for"
+_INTENSITY_SUFFIX = {
+    "lite": """
+STYLE: Drop filler and hedging. Keep articles and full sentences. Professional but tight.""",
+    "full": """
+STYLE: 2-5 word fragments. Short synonyms (big not extensive, fix not \
+"implement a solution for"). One thought per fragment.""",
+    "ultra": """
+STYLE: Maximum compression. Abbreviate common terms (DB/auth/config/req/res/fn/impl/dep/env/repo/dir). \
+Arrows for causality (X -> Y). Single words when possible.""",
+}
 
-TEXT TO COMPRESS:
-{text}"""
+INTENSITIES = tuple(_INTENSITY_SUFFIX.keys())
+
+
+def compress_user_prompt(text: str, intensity: str = "full") -> str:
+    """Build the compress user prompt for the given intensity."""
+    suffix = _INTENSITY_SUFFIX[intensity]
+    return f"{_COMPRESS_BASE}{suffix}\n\nTEXT TO COMPRESS:\n{text}"
+
+
+# Default template kept for backwards compatibility with existing callers.
+COMPRESS_USER_TEMPLATE = (
+    _COMPRESS_BASE + _INTENSITY_SUFFIX["full"] + "\n\nTEXT TO COMPRESS:\n{text}"
+)
 
 DECOMPRESS_SYSTEM = (
     "You are a language expansion expert. "

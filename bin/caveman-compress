@@ -4,33 +4,16 @@
 Usage:
     echo "some text" | caveman-compress
     caveman-compress "some text"
+
+Prefer `pip install -e .` which registers this as a proper entry point.
+This wrapper exists for environments where pip install isn't available.
 """
 import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from caveman import compress
-
-def main():
-    if len(sys.argv) > 1:
-        text = " ".join(sys.argv[1:])
-    elif not sys.stdin.isatty():
-        text = sys.stdin.read()
-    else:
-        print("Usage: caveman-compress <text>", file=sys.stderr)
-        print("       echo <text> | caveman-compress", file=sys.stderr)
-        sys.exit(1)
-
-    text = text.strip()
-    if not text:
-        sys.exit(0)
-
-    try:
-        print(compress(text))
-    except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
+from caveman.translate import _cli_compress
 
 if __name__ == "__main__":
-    main()
+    _cli_compress()
