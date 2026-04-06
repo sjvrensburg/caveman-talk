@@ -9,20 +9,34 @@ A plugin for Claude Code and Codex that combines two forms of caveman compressio
 
 ## Installation
 
-### As a Claude Code plugin
+### Skill only (response-side caveman)
+
+The skill is a single `SKILL.md` file — pure prompt engineering, no Python needed. Claude Code discovers skills from `.claude/skills/` directories:
 
 ```bash
-# From a local clone
-claude plugin add /path/to/caveman-talk
-
-# Or clone and install in one step
+# Clone the repo
 git clone https://github.com/sjvrensburg/caveman-talk.git
-claude plugin add ./caveman-talk
+
+# Install into your project (skill available when working in that project)
+mkdir -p /path/to/your-project/.claude/skills/caveman-talk
+cp caveman-talk/skills/caveman-talk/SKILL.md /path/to/your-project/.claude/skills/caveman-talk/
+
+# Or install globally (available in all projects)
+mkdir -p ~/.claude/skills/caveman-talk
+cp caveman-talk/skills/caveman-talk/SKILL.md ~/.claude/skills/caveman-talk/
 ```
 
-This gives you:
-- The `/caveman-talk:caveman` skill inside Claude Code
-- `caveman-compress` and `caveman-decompress` on your PATH (via the plugin `bin/` directory)
+This gives you the `/caveman-talk:caveman` skill inside Claude Code.
+
+### CLI tools (input-side compression)
+
+The CLI tools (`caveman-compress` and `caveman-decompress`) require Python. Install via pip:
+
+```bash
+pip install -e /path/to/caveman-talk
+```
+
+This installs both commands and their Python dependencies. You can use the CLI tools with or without the skill.
 
 ### As a Codex plugin
 
@@ -31,17 +45,7 @@ This gives you:
 codex plugin add /path/to/caveman-talk
 ```
 
-This gives you the `/caveman-talk:caveman` skill inside Codex. Note: Codex does not auto-add `bin/` to PATH, so install the CLI tools via pip (below) if you need them.
-
-### CLI tools via pip
-
-For Claude Code users this is optional (the plugin `bin/` directory is auto-added to PATH). For Codex users or standalone use:
-
-```bash
-pip install -e /path/to/caveman-talk
-```
-
-This installs `caveman-compress` and `caveman-decompress` as standalone commands.
+This gives you the `/caveman-talk:caveman` skill inside Codex. Note: Codex does not auto-add `bin/` to PATH, so install the CLI tools via pip (above) if you need them.
 
 ### Requirements
 
